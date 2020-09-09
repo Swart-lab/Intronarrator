@@ -57,8 +57,8 @@ mkdir -p tmp_juncs
 pysam_extract_introns_parallel.py --processes $PYSAM_PROCS --bam $BAM --genome $ASM.fa --outfile $JUNCS
 sort -k 1,1 -k 2,2n $JUNCS > $JUNCS.sorted
 
-##count both spliced reads and total reads properly 
-pysam_count_reads.py --processes $PYSAM_PROCS --bam $BAM --intron_juncs $JUNCS.sorted --genome $ASM.fa --outfile $ASM.intron_counts.txt 
+##count both spliced reads and total reads properly
+pysam_count_reads.py --processes $PYSAM_PROCS --bam $BAM --intron_juncs $JUNCS.sorted --genome $ASM.fa --outfile $ASM.intron_counts.txt
 
 ##identify "real" introns
 realtrons.py $ASM.intron_counts.txt 0.01 $MIN_INTRONS $MAX_INTRON_LEN > $REALTRONS_PREFIX.0.01.gff
@@ -116,9 +116,9 @@ else
 fi
 
 ##Combine AUGUSTUS files and fix the gene names
-merge_and_fix_AUGUSTUS_gene_names.py "$SPLIT_GFF/*" > $ASM_ncRNA_masked.gff 
+merge_and_fix_AUGUSTUS_gene_names.py "$SPLIT_GFF/*" > $ASM_ncRNA_masked.gff
 
-add_introns_back_to_AUGUSTUS_gff.py $ASM_M.intron_masked.fa $ASM_ncRNA_masked.gff $REALTRONS_NO_ALT > $ASM_M.final.gff 
+add_introns_back_to_AUGUSTUS_gff.py $ASM_M.intron_masked.fa $ASM_ncRNA_masked.gff $REALTRONS_NO_ALT > $ASM_M.final.gff
 
 ##Output CDS and protein sequences
 gff_extract_and_join_CDS.py $ASM.fa $ASM_ncRNA_masked.gff >  $ASM_M.final.CDS.fa
