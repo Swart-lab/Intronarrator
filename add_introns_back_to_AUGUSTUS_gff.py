@@ -128,7 +128,8 @@ for line in open(argv[2]):
                 phase = 1
 
               print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (contig, prog, src, c_s,
-                c_e, score, strand, phase, note))
+                #c_e, score, strand, phase, note))
+                c_e, score, strand, ".", note))
 
         if len(cds_coords) > 2:
           for i in range(1, len(cds_coords) -1, 2):

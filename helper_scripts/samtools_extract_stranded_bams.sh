@@ -45,3 +45,7 @@ samtools index -@ $PROCS $2.rev2.bam
 samtools merge -@ $PROCS -f $2.rev.bam $2.rev1.bam $2.rev2.bam
 samtools index -@ $PROCS $2.rev.bam
 
+# Cleanup
+
+rm $2.fwd1.bam $2.fwd2.bam $2.rev1.bam $2.rev2.bam
+rm $2.fwd1.bam.bai $2.fwd2.bam.bai $2.rev1.bam.bai $2.rev2.bam.bai

@@ -1,16 +1,16 @@
 #!/bin/bash
 
-#add directory containing intronnarator scripts
+#Directory containing intronnarator scripts
 INTRONARRATOR_PATH=/ebio/abt2_projects/ag-swart-blepharisma/development/intronarrator
-export PATH=$PATH:$INTRONARRATOR_PATH:$INTRONARRATOR_PATH/ncRNA_searches
+export PATH=$PATH:$INTRONARRATOR_PATH:$INTRONARRATOR_PATH/ncRNA_searches:$INTRONARRATOR_PATH/helper_scripts/
 
 # --- Key file names/prefixes of genome assembly, RNA-seq BAM and AUGUSTUS hints:
-ASM=assembly.fixed.minus_mt #Genome assembly prefix without ".fa" extension
-BAM=assembly.fixed.minus_mt.mapped_only.bam #BAM file containing all mapped RNA-seq reads
-EP_hints=assembly.fixed.minus_mt.mapped_only.eph #AUGUSTUS hints file without ".gff" extension
-#The hints file above can be created with the scripts in "helper_scripts"
+ASM=Bsto_ATCC_MAC_cleaned #Genome assembly prefix without ".fa" extension
+BAM_PREFIX=Bsto_ATCC_MAC_cleaned_plus_cruft.merged #BAM prefix containing all mapped RNA-seq reads (minus ".bam" extension). ".bai" index should also be present.
+BAM=$BAM_PREFIX.bam
 
-RFAM_DB=/ebio/abt2_projects/ag-swart-blepharisma/db/Rfam/rfam_minimal.cm #Minimal RFAM database
+# --- Minimal RFAM database: contains rRNAs, spliceosomal RNAs, tRNAs
+RFAM_DB=/ebio/abt2_projects/ag-swart-blepharisma/db/Rfam/rfam_minimal.cm 
 
 # --- Intron splicing parameters:
 MIN_INTRON_RATIO=0.2 #default 0.3 - at least 30% of mapped reads with introns
@@ -27,6 +27,7 @@ export AUGUSTUS_CONFIG_PATH
 AUGUSTUS_SCRIPTS=/ebio/abt2_projects/ag-swart-blepharisma/build/Augustus/scripts/
 AUGUSTUS_BIN=/ebio/abt2_projects/ag-swart-blepharisma/build/Augustus/bin/augustus
 AUGUSTUS_EXTRINSIC=$AUGUSTUS_CONFIG_PATH/species/bjap_v26/bjap_v26_extrinsic.M.RM.E.W.cfg
+EP_hints=$ASM.ep #AUGUSTUS hints file without ".gff" extension
 
 # --- File splitting for AUGUSTUS:
 SPLIT_FILE_SIZE=2000000 #Size of chunks to try to split genome into for parallel AUGUSTUS gene prediction
@@ -53,12 +54,20 @@ mkdir -p tmp_juncs
 
 # --- Intronarrator pipeline ---
 
+## split bam into stranded bam
+samtools_extract_stranded_bams.sh $BAM $BAM_PREFIX.stranded
+
+## make hints from bams (with suffixes ".fwd.ep.gff" and ".rev.ep.gff")
+bam2hints.sh $BAM_PREFIX.stranded $BAM_PREFIX
+cat $BAM_PREFIX.fwd.ep.gff $BAM_PREFIX.rev.ep.gff > $EP_hints
+rm $BAM_PREFIX.fwd.ep.gff $BAM_PREFIX.rev.ep.gff
+
 ##find introns
 pysam_extract_introns_parallel.py --processes $PYSAM_PROCS --bam $BAM --genome $ASM.fa --outfile $JUNCS
 sort -k 1,1 -k 2,2n $JUNCS > $JUNCS.sorted
 
-##count both spliced reads and total reads properly
-pysam_count_reads.py --processes $PYSAM_PROCS --bam $BAM --intron_juncs $JUNCS.sorted --genome $ASM.fa --outfile $ASM.intron_counts.txt
+##count both spliced reads and total reads properly 
+pysam_count_reads.py --processes $PYSAM_PROCS --bam $BAM --intron_juncs $JUNCS.sorted --genome $ASM.fa --outfile $ASM.intron_counts.txt 
 
 ##identify "real" introns
 realtrons.py $ASM.intron_counts.txt 0.01 $MIN_INTRONS $MAX_INTRON_LEN > $REALTRONS_PREFIX.0.01.gff
@@ -116,12 +125,12 @@ else
 fi
 
 ##Combine AUGUSTUS files and fix the gene names
-merge_and_fix_AUGUSTUS_gene_names.py "$SPLIT_GFF/*" > $ASM_ncRNA_masked.gff
+merge_and_fix_AUGUSTUS_gene_names.py "$SPLIT_GFF/*" > $ASM_ncRNA_masked.gff 
 
-add_introns_back_to_AUGUSTUS_gff.py $ASM_M.intron_masked.fa $ASM_ncRNA_masked.gff $REALTRONS_NO_ALT > $ASM_M.final.gff
+add_introns_back_to_AUGUSTUS_gff.py $ASM_M.intron_masked.fa $ASM_ncRNA_masked.gff $REALTRONS_NO_ALT > $ASM_M.final.gff 
 
 ##Output CDS and protein sequences
-gff_extract_and_join_CDS.py $ASM.fa $ASM_ncRNA_masked.gff >  $ASM_M.final.CDS.fa
+gff_extract_and_join_CDS.py $ASM.fa $ASM_M.final.gff >  $ASM_M.final.CDS.fa
 translate_CDS.py $ASM_M.final.CDS.fa > $ASM_M.final.CDS.pep
 
 gff_extract_and_join_CDS.py $ASM_M.minus_introns.fa $ASM_ncRNA_masked.gff > $ASM_M.minus_introns.CDS.fa
