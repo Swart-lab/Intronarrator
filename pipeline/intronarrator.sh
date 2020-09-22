@@ -2,7 +2,7 @@
 
 #Directory containing intronnarator scripts
 INTRONARRATOR_PATH=/ebio/abt2_projects/ag-swart-blepharisma/development/intronarrator
-export PATH=$PATH:$INTRONARRATOR_PATH:$INTRONARRATOR_PATH/ncRNA_searches:$INTRONARRATOR_PATH/helper_scripts/
+export PATH=$PATH:$INTRONARRATOR_PATH/pipeline:$INTRONARRATOR_PATH/ncRNA_searches:$INTRONARRATOR_PATH/helper_scripts/
 
 # --- Key file names/prefixes of genome assembly, RNA-seq BAM and AUGUSTUS hints:
 ASM=Bsto_ATCC_MAC_cleaned #Genome assembly prefix without ".fa" extension
