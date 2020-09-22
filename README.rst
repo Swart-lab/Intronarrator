@@ -3,7 +3,7 @@ Description
 
 Intronarrator is a set of Python scripts that predict introns in genes using RNA-seq data. The program
 AUGUSTUS is used to do the actual gene prediction, using its "intronless" model. Intronarrator is driven 
-by a main bash script "intronarrator.sh", 
+by a main bash script "intronarrator.sh".
 
 Dependencies
 ============
