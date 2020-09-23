@@ -6,13 +6,13 @@ RNA-seq data. The program AUGUSTUS is used to do the actual gene prediction,
 using its "intronless" model. 
 
 The motivation for this is that AUGUSTUS's intron model leads to poor prediction
-of non-standard introns, such as the extremely short (mostly 15/16 bp) introns of
+of non-standard introns, such as the extremely short (mostly 15 bp) introns of
 heterotrichous ciliates. Despite trying a number of options to alter this model,
-we were unable to accurately predict introns - leading to most predicted introns  
-being incorrect ("faketrons"). RNA-seq data, on the other hand, may be very
-extensive -- providing deep coverage of most genes. Thus, it is possible to
-predict the introns directly from RNA-seq data, and leave the rest of the gene
-prediction to AUGUSTUS.
+we were unable to accurately predict introns - leading, more often than not, to
+predicted introns being incorrect ("faketrons"). RNA-seq data, on the other
+hand, may be very extensive -- providing deep coverage of most genes. Thus, it
+is possible to predict the introns directly from RNA-seq data, and leave the
+rest of the gene prediction to AUGUSTUS.
 
 The approach is illustrated below: |approach|
 
@@ -41,3 +41,6 @@ Helper scripts for producing stranded BAM files, and generation of "hints" for
 AUGUSTUS from the BAM files are included in the directory "helper_scripts".
 These should be copied and modified according to need before use.
 
+TODO
+=====
+Reads with multiple introns currently are ignored - these still need to be accommodated.
