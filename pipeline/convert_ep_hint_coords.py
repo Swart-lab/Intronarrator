@@ -36,13 +36,14 @@ for line in open(argv[2]):
   src = atoms[2]
   
   try:
-    s, e = contig_coords[contig][int(atoms[3])], contig_coords[contig][int(atoms[4])]
-    score = atoms[5]
-    strand = atoms[6]
-    note = atoms[-1]
+    if contig in contig_coords:
+      s, e = contig_coords[contig][int(atoms[3])], contig_coords[contig][int(atoms[4])]
+      score = atoms[5]
+      strand = atoms[6]
+      note = atoms[-1]
 
-    if e - s + 1 == ep_hint_length:
-      print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (contig, prog, src, s, e, score, strand, ".", note))
+      if e - s + 1 == ep_hint_length:
+        print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (contig, prog, src, s, e, score, strand, ".", note))
 
   except IndexError:
     stderr.write("EP hint out of bounds: %s %s %s" % (contig, atoms[3], atoms[4]))
