@@ -129,6 +129,8 @@ merge_and_fix_AUGUSTUS_gene_names.py "$SPLIT_GFF/*" > $ASM_ncRNA_masked.gff
 
 add_introns_back_to_AUGUSTUS_gff.py $ASM_M.intron_masked.fa $ASM_ncRNA_masked.gff $REALTRONS_NO_ALT > $ASM_M.final.gff 
 
+augustus_gff_to_plain_gff.py $ASM_M.final.gff > $ASM_M.final.proper.gff
+
 ##Output CDS and protein sequences
 gff_extract_and_join_CDS.py $ASM.fa $ASM_M.final.gff >  $ASM_M.final.CDS.fa
 translate_CDS.py $ASM_M.final.CDS.fa > $ASM_M.final.CDS.pep
