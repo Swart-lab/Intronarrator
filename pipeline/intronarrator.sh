@@ -139,9 +139,9 @@ translate_CDS.py $ASM_M.minus_introns.CDS.fa > $ASM_M.minus_introns.CDS.pep
 ##Find ncRNAs (including tRNAs) and output GFFs for them
 cmsearch --cpu $INFERNAL_PROCS --tblout $ASM.cmsearch $RFAM_DB $ASM.fa > $ASM.cmsearch.aln
 infernal_filter.py $ASM.cmsearch > $ASM.filtered.cmsearch
-infernal_to_GFF.py $ASM.filtered.cmsearch> $ASM.filtered.gff
+infernal_to_GFF.py $ASM.filtered.cmsearch> $ASM.cmsearch.filtered.gff
 tRNAscan-SE --thread $INFERNAL_PROCS -E -o $ASM.tRNAscan-SE -f $ASM.tRNAscan-SE.aln $ASM.fa
-tRNAscan-SE_to_GFF.py $ASM.tRNAscan-SE > $ASM.tRNAscan-SE.gff
-
+#tRNAscan-SE_to_GFF.py $ASM.tRNAscan-SE > $ASM.tRNAscan-SE.gff
+convert_tRNAScanSE_to_gff3.pl --input=$ASM.tRNAscan-SE > $ASM.tRNAscan-SE.gff
 
 # vim:sts=2:ts=2:sw=2:tw=300

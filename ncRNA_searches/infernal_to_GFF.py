@@ -22,8 +22,29 @@ for line in open(argv[1]).readlines():
     strand = '-'
     start, end = b, a
   phase = "."
-  gene_id = "%s-%s" % (kind, kind_d[kind])
 
-  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
-    (contig, prog, 'ncRNA', start, end, score, strand, phase, gene_id))
+  clean_kind = kind.replace("_eukarya", "")
+  clean_kind = clean_kind.replace("Protozoa_", "")
+  gene_id = "%s-%s" % (clean_kind, kind_d[kind])
+
+  if 'tRNA' in kind:
+    continue
+
+  ncRNA_kind = 'ncRNA'
+  if "rRNA" in kind:
+    ncRNA_kind = 'rRNA'
+  elif kind[0] == "U":
+    ncRNA_kind = 'snRNA'
+  elif 'SRP' in kind:
+    ncRNA_kind = 'SRP_RNA'
+  elif 'MRP' in kind:
+    ncRNA_kind = 'RNase_MRP_RNA'
+  elif 'RNaseP' in kind:
+    ncRNA_kind = 'RNase_P_RNA'
+  
+
+  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\tID=%s_gene" % 
+    (contig, prog, "gene", start, end, score, strand, phase, gene_id))
+  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\tID=%s" % 
+    (contig, prog, ncRNA_kind, start, end, score, strand, phase, gene_id))
 

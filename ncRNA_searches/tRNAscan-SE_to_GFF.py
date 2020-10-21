@@ -27,7 +27,7 @@ for line in open(argv[1]).readlines()[3:]:
     strand = '-'
     start, end = b, a
   phase = "."
-  gene_id = "tRNA-%s(%s)-%s" % (aa, anticodon, kind_d[(aa, anticodon)])
+  gene_id = "ID=tRNA-%s(%s)-%s" % (aa, anticodon, kind_d[(aa, anticodon)])
 
   print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
     (contig, prog, kind, start, end, score, strand, phase, gene_id))
