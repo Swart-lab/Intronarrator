@@ -33,6 +33,7 @@ INFERNAL_PROCS=$ALL_PROCS #number of processes for Infernal searches of ncRNAs
 PYSAM_PROCS=$ALL_PROCS #number of processes for intron splicing counting
 
 # --- AUGUSTUS binary, config and exon part hints paths/config
+GENETIC_CODE=4 #NCBI genetic code used for translation
 AUGUSTUS_CONFIG_PATH=$2 #AUGUSTUS config directory
 export AUGUSTUS_CONFIG_PATH
 ORG=$3 # name of species within AUGUSTUS config directory
@@ -117,7 +118,7 @@ echo "$SPLIT_FILE_COUNT AUGUSTUS processes running in the background"
 for (( i=1; i<=$SPLIT_FILE_COUNT; i++ ))
 do
   $AUGUSTUS_BIN \
-  --species=$ORG --translation_table=4 \
+  --species=$ORG --translation_table=$GENETIC_CODE \
   --genemodel=intronless \
   --hintsfile=$EP_hints_minus.gff \
   --extrinsicCfgFile=$AUGUSTUS_EXTRINSIC \
