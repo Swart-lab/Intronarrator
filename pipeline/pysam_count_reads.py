@@ -104,7 +104,10 @@ def read_intron_juncs(fn):
 
   pool = multiprocessing.Pool(processes=args.processes) 
   for contig in contigs:
-    pool.apply_async(process_all_introns, args=(junc_d[contig], contig, ))
+    try:
+      pool.apply_async(process_all_introns, args=(junc_d[contig], contig, ))
+    except KeyError:
+      pass
 
   pool.close()
   pool.join()
