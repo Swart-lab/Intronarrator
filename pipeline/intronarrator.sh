@@ -91,7 +91,7 @@ realtrons.py $ASM.intron_counts.txt 0.01 $MIN_INTRONS $MAX_INTRON_LEN > $REALTRO
 antisense_realtrons.py $ASM.intron_counts.txt 0.01 $MIN_INTRONS $MAX_INTRON_LEN > $REALTRONS_PREFIX.0.01.antisense.gff
 
 realtrons.py $ASM.intron_counts.txt $MIN_INTRON_RATIO $MIN_INTRONS $MAX_INTRON_LEN > $REALTRONS_FN
-antisense_realtrons.py $ASM.intron_counts.txt 0.01 $MIN_INTRONS $MAX_INTRON_LEN > $REALTRONS_PREFIX2.antisense.gff
+antisense_realtrons.py $ASM.intron_counts.txt $MIN_INTRON_RATIO $MIN_INTRONS $MAX_INTRON_LEN > $REALTRONS_PREFIX2.antisense.gff
 
 ##Select only the most frequently spliced introns that share a boundary
 realtrons_filter_alt.py $REALTRONS_FN > $REALTRONS_NO_ALT
