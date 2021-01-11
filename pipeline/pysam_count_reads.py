@@ -85,7 +85,7 @@ def process_all_introns(juncs, contig, tmpdir):
 
   samfile = pysam.AlignmentFile(args.bam, "rb" )
   lines = []
-  for atoms in juncs[0:100]:
+  for atoms in juncs:
     #lines.append(process_intron(samfile, atoms[0], int(atoms[1]), int(atoms[2]), atoms[5], int(atoms[4])))
     lines.append(process_intron(samfile, atoms[0], int(atoms[1]), int(atoms[2]), atoms[4], int(atoms[5])))
 
