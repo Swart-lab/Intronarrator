@@ -16,7 +16,8 @@ data, on the other hand, may be very extensive -- providing deep coverage of
 most genes. Thus, it is possible to predict the introns directly from RNA-seq
 data, and leave the rest of the gene prediction to AUGUSTUS.
 
-The approach is illustrated below: |approach|
+The approach is illustrated below: |approach| (semi-transparent green indicates
+where a gene to be predicted is located).
 
 .. |approach| image:: images/intronarrator_approach.png
 
