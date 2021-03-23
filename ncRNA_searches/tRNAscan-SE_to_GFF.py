@@ -30,44 +30,50 @@ while 1:
   atoms2 = l2.split()
 
   contig = atoms1[0].split(".")[0]
-  tRNA_num = atoms1[0].split(".")[1]
+  tRNA_num = atoms1[0].split(".trna")[1]
   aa = atoms2[1]
   anticodon = atoms2[3]
-  anticodon_loc = atoms2[6][1:-1].split("-")
-  
-  kind_d.setdefault((aa, anticodon), 0)
-  kind_d[(aa, anticodon)] += 1
+  score = atoms2[-1]
 
-  prog = "tRNAscan-SE_2.0"
-  kind = "tRNA"
-  score = 0
-  a, b = int(atoms1[1].split("-")[0][1:]), int(atoms1[1].split("-")[1][:-1])
-  if b > a:
-    strand = '+'
-    start, end = a, b
-  elif b < a:
-    strand = '-'
-    start, end = b, a
-  phase = "."
-  gene_id = "ID=tRNA-%s(%s)_%s" % (aa, anticodon, kind_d[(aa, anticodon)])
+  if anticodon != 'NNN':
+    anticodon_loc = atoms2[6][1:-1].split("-")
+    
+    kind_d.setdefault((aa, anticodon), 0)
+    kind_d[(aa, anticodon)] += 1
 
-  if int(anticodon_loc[0]) < int(anticodon_loc[1]):
-    anticodon_str = ';anticodon="(pos:join(%s..%s),aa:%s,seq:%s)"' % (anticodon_loc[0], anticodon_loc[1], aa, anticodon)
-  else:
-    anticodon_str = ';anticodon="(pos:complement(%s..%s),aa:%s,seq:%s)"' % (anticodon_loc[0], anticodon_loc[1], aa, anticodon)
+    prog = "tRNAscan-SE_2.0"
+    inference=";inference=COORDINATES:profile:tRNAscan-SE:2.0"
+    kind = "tRNA"
+    a, b = int(atoms1[1].split("-")[0][1:]), int(atoms1[1].split("-")[1][:-1])
+    if b > a:
+      strand = '+'
+      start, end = a, b
+    elif b < a:
+      strand = '-'
+      start, end = b, a
+    phase = "."
+    gene_id = "ID=tRNA-%s(%s)_%s" % (aa, anticodon.lower(), kind_d[(aa, anticodon)])
+    product = "product=tRNA-%s(%s)" % (aa, anticodon.lower())
 
-  note=''
+    if int(anticodon_loc[0]) < int(anticodon_loc[1]):
+      anticodon_str = ';anticodon="(pos:join(%s..%s),aa:%s,seq:%s)"' % (anticodon_loc[0], anticodon_loc[1], aa, anticodon)
+    else:
+      anticodon_str = ';anticodon="(pos:complement(%s..%s),aa:%s,seq:%s)"' % (anticodon_loc[0], anticodon_loc[1], aa, anticodon)
 
-  if has_intron:
-    note=';note="possible intron: %s"' % l3.split()[2]
+    note=''
 
-  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
-    (contig, prog, kind, start, end, score, strand, phase, gene_id + anticodon_str + note))
+    if has_intron:
+      note=';note="possible intron: %s"' % l3.split()[2]
 
-    #if b > a: 
-    #  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
-    #      (contig, prog, "intron", atoms[6], atoms[7], score, strand, phase, gene_id))
-    #elif b < a:
-    #  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
-    #    (contig, prog, "intron", atoms[7], atoms[6], score, strand, phase, gene_id))
+    #print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
+    #  (contig, prog, kind, start, end, score, strand, phase, gene_id + anticodon_str + note))
+    print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
+      (contig, prog, kind, start, end, score, strand, phase, gene_id + ";" + product + inference + note))
+
+      #if b > a: 
+      #  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
+      #      (contig, prog, "intron", atoms[6], atoms[7], score, strand, phase, gene_id))
+      #elif b < a:
+      #  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
+      #    (contig, prog, "intron", atoms[7], atoms[6], score, strand, phase, gene_id))
   
