@@ -6,6 +6,7 @@ import multiprocessing
 import shutil
 from glob import glob
 import argparse
+import os.path
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--processes', action='store', type=int, default=8)
@@ -13,6 +14,8 @@ parser.add_argument('--bam', action='store', type=str, required=True)
 parser.add_argument('--intron_juncs', action='store', type=str, required=True)
 parser.add_argument('--genome', action='store', type=str, required=True)
 parser.add_argument('--outfile', action='store', type=str, required=True)
+parser.add_argument('--tmpdir', action='store', type=str, default='tmp',
+  help='Folder for temporary files')
 
 args = parser.parse_args()
 
@@ -78,7 +81,7 @@ def process_intron(samfile, contig, start, end, strand, junc):
   return "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (contig, start, end, strand, junc, intron_spliced, fwd_strand_tot, rev_strand_tot, read_tot)
 
 
-def process_all_introns(juncs, contig):
+def process_all_introns(juncs, contig, tmpdir):
 
   samfile = pysam.AlignmentFile(args.bam, "rb" )
   lines = []
@@ -90,7 +93,7 @@ def process_all_introns(juncs, contig):
 
   samfile.close()
 
-  f = open('tmp/%s.txt' % (contig), 'w+')
+  f = open('%s/%s.txt' % (tmpdir, contig), 'w+')
   f.writelines(lines)
   f.close()
 
@@ -105,7 +108,7 @@ def read_intron_juncs(fn):
   pool = multiprocessing.Pool(processes=args.processes) 
   for contig in contigs:
     try:
-      pool.apply_async(process_all_introns, args=(junc_d[contig], contig, ))
+      pool.apply_async(process_all_introns, args=(junc_d[contig], contig, args.tmpdir, ))
     except KeyError:
       pass
 
@@ -116,8 +119,8 @@ def read_intron_juncs(fn):
   fh.write("#contig	start	end	strand	juncs	spliced	fwd_strand_all	rev_strand_all\n")
   fh.close()
 
-  with open(args.outfile, 'wb') as wfd:
-    for f in glob("tmp/*"):
+  with open(args.outfile, 'ab') as wfd:
+    for f in glob("%s/*" % (args.tmpdir)):
         with open(f,'rb') as fd:
             shutil.copyfileobj(fd, wfd)
 
@@ -127,8 +130,17 @@ def read_intron_juncs(fn):
 #    if atoms[0] == 'contig_83':
 #    process_intron(atoms[0], int(atoms[1]), int(atoms[2]), atoms[5], int(atoms[4]))
 
-
-read_intron_juncs(args.intron_juncs)
+if __name__ == "__main__":
+  if os.path.isfile(args.outfile):
+    print("output file %s already exists, not overwriting" % (args.outfile))
+  else:
+    if os.path.exists(args.tmpdir):
+      if os.path.isdir(args.tmpdir):
+        read_intron_juncs(args.intron_juncs)
+      else:
+        print("temp path %s is not a folder" % (args.tmpdir))
+    else:
+      print("temp folder %s does not exist, please mkdir" % (args.tmpdir))
 
 
 # vim:sts=2:ts=2:sw=2

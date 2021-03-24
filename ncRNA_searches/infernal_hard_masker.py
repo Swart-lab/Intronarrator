@@ -10,7 +10,9 @@ for line in open(argv[1]):
     atoms = line.split()
     e_val = float(atoms[15])
     if e_val < 1e-6:
-      ncRNA_d.setdefault(atoms[0], []).append([int(atoms[7]), int(atoms[8])])
+      # sort coords because infernal reports minus strand as end < start
+      coords = sorted([int(atoms[7]), int(atoms[8])])
+      ncRNA_d.setdefault(atoms[0], []).append(coords)
       #print(line[:-1])
 
 for rec in f:

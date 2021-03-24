@@ -12,7 +12,7 @@ for line in open(argv[1]).readlines():
   kind_d[atoms[2]] += 1
 
   prog = "Infernal"
-  score = atoms[-3]
+  score = atoms[15]
 
   a, b = int(atoms[7]), int(atoms[8])
   if b > a:

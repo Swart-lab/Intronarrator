@@ -6,14 +6,15 @@ import multiprocessing
 import shutil
 from glob import glob
 import argparse
+import os.path
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--processes', action='store', type=int, default=8)
 parser.add_argument('--bam', action='store', type=str, required=True)
 parser.add_argument('--genome', action='store', type=str, required=True)
 parser.add_argument('--outfile', action='store', type=str, required=True)
-
-tmp_dir = 'tmp_juncs'
+parser.add_argument('--tmpdir', help="Path to folder to write temp files",
+  action='store', type=str, default='tmp_juncs')
 
 args = parser.parse_args()
 
@@ -60,7 +61,7 @@ def process_contig(contig):
     lines.append("%s\t%s\t%s\t.\t%s\t%s\n" % (contig, intron[0], intron[1], intron[2], intron_d[intron]))
 
 
-  f = open('%s/%s.txt' % (tmp_dir, contig), 'w+')
+  f = open('%s/%s.txt' % (args.tmpdir, contig), 'w+')
   f.writelines(lines)
   f.close()
 
@@ -81,13 +82,23 @@ def find_introns():
   fh.write("#contig	start	end	score	strand	count\n")
   fh.close()
 
-  with open(args.outfile, 'wb') as wfd:
-    for f in glob("%s/*" % tmp_dir):
+  with open(args.outfile, 'ab') as wfd:
+    for f in glob("%s/*" % args.tmpdir):
         with open(f,'rb') as fd:
             shutil.copyfileobj(fd, wfd)
 
+
 if __name__ == "__main__":
-  find_introns()
+  if os.path.isfile(args.outfile):
+      print("output file %s already exists, not overwriting" % (args.outfile))
+  else:
+    if os.path.exists(args.tmpdir):
+      if os.path.isdir(args.tmpdir):
+        find_introns()
+      else:
+        print("temp path %s is not a folder" % (args.tmpdir))
+    else:
+      print("temp folder %s does not exist, please mkdir" % (args.tmpdir))
 
 
 # vim:sts=2:ts=2:sw=2
