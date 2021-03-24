@@ -162,7 +162,6 @@ infernal_to_GFF.py $ASM.filtered.cmsearch> $ASM.cmsearch.filtered.gff
 
 rm $ASM.tRNAscan-SE $ASM.tRNAscan-SE.aln
 tRNAscan-SE --thread $INFERNAL_PROCS -E -o $ASM.tRNAscan-SE -f $ASM.tRNAscan-SE.aln $ASM.fa
-tRNAscan-SE_to_GFF.py $ASM.tRNAscan-SE > $ASM.tRNAscan-SE.gff
-#convert_tRNAScanSE_to_gff3.pl --input=$ASM.tRNAscan-SE > $ASM.tRNAscan-SE.gff
+tRNAscan-SE_to_GFF.py $ASM.tRNAscan-SE.aln > $ASM.tRNAscan-SE.gff
 
 # vim:sts=2:ts=2:sw=2:tw=300
