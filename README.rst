@@ -30,7 +30,11 @@ version 2.0.
 The following Python dependencies need to be installed: Numpy, BioPython, Pysam
 if not present already.
 
-All these depencies are listed in env.yml, allowing them to be installed by using conda.
+Installation
+============
+
+An Intronarrator evironment with all the necessary depencies can be installed from the included env.yml with conda:
+ ``conda env create -f env.yml``
 
 Usage
 =====
