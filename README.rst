@@ -1,6 +1,5 @@
 Description
 ===========
-
 Intronarrator is a set of Python scripts that predict introns in genes using
 RNA-seq data. The program `AUGUSTUS
 <https://github.com/Gaius-Augustus/Augustus>`_ is used to do the actual gene
@@ -23,7 +22,6 @@ where a gene to be predicted is located): |approach|
 
 Dependencies
 ============
-
 The following programs need to be installed: AUGUSTUS, Infernal, tRNAscan-SE
 version 2.0.
 
@@ -32,13 +30,16 @@ if not present already.
 
 Installation
 ============
+Code can be obtained from github:
+``git clone https://github.com/Swart-lab/Intronarrator/``
 
-An Intronarrator evironment with all the necessary depencies can be installed from the included env.yml with conda
- ``conda env create -f env.yml``
+An Intronarrator evironment with all the necessary depencies can be installed from the included env.yml with conda::
+
+        cd Intronarrator
+        conda env create -f env.yml
 
 Usage
 =====
-
 intronarrator.sh needs to be copied to the working directory. After this it
 needs to be edited and properly setup before running, including setting
 the paths to AUGUSTUS configuration files. You should also decide on the number
