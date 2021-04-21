@@ -33,7 +33,7 @@ if not present already.
 Installation
 ============
 
-An Intronarrator evironment with all the necessary depencies can be installed from the included env.yml with conda:
+An Intronarrator evironment with all the necessary depencies can be installed from the included env.yml with conda
  ``conda env create -f env.yml``
 
 Usage
