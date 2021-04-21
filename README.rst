@@ -20,16 +20,11 @@ where a gene to be predicted is located): |approach|
 
 .. |approach| image:: images/intronarrator_approach.png
 
-Dependencies
-============
+Dependencies and installation
+=============================
 The following programs need to be installed: AUGUSTUS, Infernal, tRNAscan-SE
 version 2.0.
 
-The following Python dependencies need to be installed: Numpy, BioPython, Pysam
-if not present already.
-
-Installation
-============
 Code can be obtained from github:
 ``git clone https://github.com/Swart-lab/Intronarrator/``
 
@@ -37,6 +32,7 @@ An Intronarrator evironment with all the necessary depencies can be installed fr
 
         cd Intronarrator
         conda env create -f env.yml
+        conda activate Intronarrator
 
 Usage
 =====
