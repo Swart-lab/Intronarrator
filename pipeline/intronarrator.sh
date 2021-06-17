@@ -34,7 +34,8 @@ PYSAM_PROCS=$ALL_PROCS #number of processes for intron splicing counting
 
 # --- AUGUSTUS binary, config and exon part hints paths/config
 GENETIC_CODE=4 #NCBI genetic code used for translation
-AUGUSTUS_CONFIG_PATH=$2 #AUGUSTUS config directory
+AUGUSTUS_PATH=$2 #AUGUSTUS config directory
+AUGUSTUS_CONFIG_PATH=$AUGUSTUS_PATH/config #AUGUSTUS config directory
 export AUGUSTUS_CONFIG_PATH
 ORG=$3 # name of species within AUGUSTUS config directory
 AUGUSTUS_DIR=$1 # main AUGUSTUS directory
@@ -75,7 +76,7 @@ mkdir -p tmp_juncs
 samtools_extract_stranded_bams.sh $BAM $BAM_PREFIX.stranded
 
 ## make hints from bams (with suffixes ".fwd.ep.gff" and ".rev.ep.gff")
-bam2hints.sh $BAM_PREFIX.stranded $BAM_PREFIX
+bam2hints.sh $AUGUSTUS_PATH $BAM_PREFIX.stranded $BAM_PREFIX
 cat $BAM_PREFIX.fwd.ep.gff $BAM_PREFIX.rev.ep.gff > $EP_hints
 rm $BAM_PREFIX.fwd.ep.gff $BAM_PREFIX.rev.ep.gff
 
