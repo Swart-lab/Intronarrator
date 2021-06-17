@@ -34,13 +34,13 @@ PYSAM_PROCS=$ALL_PROCS #number of processes for intron splicing counting
 
 # --- AUGUSTUS binary, config and exon part hints paths/config
 GENETIC_CODE=4 #NCBI genetic code used for translation
-AUGUSTUS_PATH=$2 #AUGUSTUS config directory
-AUGUSTUS_CONFIG_PATH=$AUGUSTUS_PATH/config #AUGUSTUS config directory
+AUGUSTUS_PATH=$1  # main AUGUSTUS directory
+AUGUSTUS_CONFIG_PATH=$AUGUSTUS_PATH/config #AUGUSTUS config path
 export AUGUSTUS_CONFIG_PATH
-ORG=$3 # name of species within AUGUSTUS config directory
-AUGUSTUS_DIR=$1 # main AUGUSTUS directory
-AUGUSTUS_SCRIPTS=$AUGUSTUS_DIR/scripts/
-AUGUSTUS_BIN=$AUGUSTUS_DIR/bin/augustus
+ORG=$2 # name of species within AUGUSTUS config directory
+
+AUGUSTUS_SCRIPTS=$AUGUSTUS_PATH/scripts/
+AUGUSTUS_BIN=$AUGUSTUS_PATH/bin/augustus
 AUGUSTUS_EXTRINSIC=$AUGUSTUS_CONFIG_PATH/species/$ORG/${ORG}_extrinsic.M.RM.E.W.cfg
 EP_hints=$ASM.ep #AUGUSTUS hints file without ".gff" extension
 
