@@ -1,9 +1,11 @@
 #!/bin/bash
 #exonpart hints
-BAM2WIG=/ebio/abt2_projects/ag-swart-blepharisma/data/gene_prediction/augustus/augustus_mod_gencode2_ps_bjap_v2/bin/bam2wig 
-WIG2HINTS=/ebio/abt2_projects/ag-swart-blepharisma/build/Augustus/scripts/wig2hints.pl 
-BAM_PREFIX=$1
-HINT_PREFIX=$2
+AUGUSTUS_PATH=$1
+BAM2WIG=$AUGUSTUS_PATH/bin/bam2wig
+WIG2HINTS=$AUGUSTUS_PATH/scripts/wig2hints.pl
+BAM_PREFIX=$2
+HINT_PREFIX=$3
+
 FWD_BAM=$BAM_PREFIX.fwd.bam
 REV_BAM=$BAM_PREFIX.rev.bam
 
