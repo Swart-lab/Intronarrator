@@ -4,8 +4,8 @@
 #$1 is the original bam file
 #$2 is the prefix for split bam files
 
-#example command:
-# ~/ag-swart-blepharisma/data/alignments/intron_searches/samtools_extract_stranded_bams.sh merged.bam merged
+#example command from root Intronarrator directory:
+# ./helper_scripts/samtools_extract_stranded_bams.sh merged.bam merged
 
 set -ue
 
