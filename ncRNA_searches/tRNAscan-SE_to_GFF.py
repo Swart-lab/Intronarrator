@@ -12,10 +12,6 @@ while 1:
   if l1 == '': break
   l2 = fh.readline()
   l3 = fh.readline()
-
-  #print(l1[:-1])
-  #print(l2[:-1])
-  #print(l3[:-1])
   
   while 1:
     aline = fh.readline()
@@ -65,15 +61,7 @@ while 1:
     if has_intron:
       note=';note="possible intron: %s"' % l3.split()[2]
 
-    #print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
-    #  (contig, prog, kind, start, end, score, strand, phase, gene_id + anticodon_str + note))
     print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
       (contig, prog, kind, start, end, score, strand, phase, gene_id + ";" + product + inference + note))
 
-      #if b > a: 
-      #  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
-      #      (contig, prog, "intron", atoms[6], atoms[7], score, strand, phase, gene_id))
-      #elif b < a:
-      #  print("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % 
-      #    (contig, prog, "intron", atoms[7], atoms[6], score, strand, phase, gene_id))
   
