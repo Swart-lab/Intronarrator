@@ -1,14 +1,14 @@
 Description
 ===========
-Intronarrator is a set of Python scripts that predict introns in genes using
-RNA-seq data. The program `AUGUSTUS
-<https://github.com/Gaius-Augustus/Augustus>`_ is used to do the actual gene
-prediction, using its "intronless" model. 
+Intronarrator is a collection of Python and shell scripts that predicts introns
+using RNA-seq data, then uses the program `AUGUSTUS
+<https://github.com/Gaius-Augustus/Augustus>`_ to do gene prediction, using its
+"intronless" model.
 
 The motivation for this is that AUGUSTUS's intron model leads to poor prediction
 of extremely short (mostly 15 bp) introns of heterotrichous ciliates, despite
 having an intron length model designed to accommodate extreme variation in
-intron lengths observed across eukaryotes. Despite trying a number of options to
+intron lengths observed across eukaryotes. After trying a number of options to
 alter this model, we were unable to accurately predict introns - leading, more
 often than not, to predicted introns being incorrect ("faketrons"). RNA-seq
 data, on the other hand, may be very extensive -- providing deep coverage of
