@@ -14,7 +14,6 @@ for rec in f:
   strip_seq = p.sub('', aseq)
   coords = np.zeros((len(strip_seq) + 1,), dtype=int)
 
-  newseq = ""
   coord_d = {}
   i, j = 0, 0
 
@@ -23,7 +22,6 @@ for rec in f:
     if b.islower():
       j += 1
     else:
-      #newseq += b
       #coord_d[i - j] = i, b
       coords[i -j] = i
     
@@ -39,7 +37,7 @@ for line in open(argv[2]):
     atoms = line.split("\t")
     contig = atoms[0]
 
-    #if contig == "contig_83":
+
     try:
       prog = atoms[1]
     except KeyError:
@@ -55,20 +53,13 @@ for line in open(argv[2]):
 
     wrong_strand = False
 
-    #if r'"g6"' in note or r'"g70"' in note:
-    #Debugging code above
-
     if src == 'CDS':
-      #if "contig_83.g10.t1" in note: print("here")
+     
       cds_coords = [s, e]
       try:
         for intron in realtron_d[contig]:
           if intron[0] >= s and intron[1] <= e:
             if intron[3] == strand:
-              #check to make sure realtrons intron orientation corresponds to
-              #AUGUSTUS prediction, otherwise remove bad AUGUSTUS gene prediction
-              #if "contig_83.g10.t1" in note: print("here2")
-
               cds_coords.append(intron[0] - 1 )
               cds_coords.append(intron[1] + 1)
             else:
