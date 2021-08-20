@@ -70,11 +70,6 @@ def process_intron(samfile, contig, start, end, strand, junc):
             #Note: convert intron start coordinate to zero-based coordinate used by pysam
             intron_spliced += 1
           
-          #Debugging code:
-          #if read.query_name == 'V300020225L1C002R0581258290':
-          #  intron_seq = ref_seq[intron_start:intron_end]
-          #  sys.stderr.write("%s %s %s %s %s %s\n" % (read.query_name, intron_start, intron_end, start, end, intron_seq))
-
     except TypeError:
       pass
 
@@ -123,12 +118,6 @@ def read_intron_juncs(fn):
     for f in glob("%s/*" % (args.tmpdir)):
         with open(f,'rb') as fd:
             shutil.copyfileobj(fd, wfd)
-
-#  print("contig	start	end	strand	junc	intron_spliced	intronless	total")
-#  for line in open(fn):
-#    atoms = line.split() 
-#    if atoms[0] == 'contig_83':
-#    process_intron(atoms[0], int(atoms[1]), int(atoms[2]), atoms[5], int(atoms[4]))
 
 if __name__ == "__main__":
   if os.path.isfile(args.outfile):
