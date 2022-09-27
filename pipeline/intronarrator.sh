@@ -1,13 +1,16 @@
 #!/bin/bash
 #RUN AS FOLLOWS:
 #./intronarrator.sh AUGUSTUS_DIR AUGUSTUS_CONFIG_DIR ORGANISM GENOME RNA-seq
+#
 # The paths given as arguments to intronarrator.sh are necessary to find
 # AUGUSTUS, the directory of AUGUSTUS trained configuration subdirectories, and
 # the exact species/strain subdirectory within this directory. See below in the
 # AUGUSTUS section how $1 to $3 are processed to set the right paths.
 # "GENOME" is the name of the fasta file containing the genome minus the ".fa"
-# extension. ".fa" should be used as the extension. "RNA-seq" is the bam file
-# prefix excluding ".bam"
+# extension. ".fa" should be used as the extension. "RNA-seq" is the prefix of
+# a sorted bam file (i.e., excluding the file extension ".bam"). This file 
+# should also be indexed with the "samtools index" command, and thus have an
+# associated ".bam.bai" index file in the same directory as the bam file too.
 
 #Directory containing intronnarator scripts
 INTRONARRATOR_PATH=~/development/intronarrator
