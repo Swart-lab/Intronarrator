@@ -128,7 +128,7 @@ do
   --extrinsicCfgFile=$AUGUSTUS_EXTRINSIC \
   --softmasking=1 \
   $SPLIT_GENOME/${ASM_ncRNA_masked}.split.$i.fa \
-  > $SPLIT_GFF/${ASM_ncRNA_masked}.$i.gff &
+  --outfile=$SPLIT_GFF/${ASM_ncRNA_masked}.$i.gff &
   pids[${i}]=$!
 done
 
