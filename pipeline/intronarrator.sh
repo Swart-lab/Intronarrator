@@ -44,7 +44,11 @@ ORG=$2 # name of species within AUGUSTUS config directory
 
 AUGUSTUS_SCRIPTS=$AUGUSTUS_PATH/scripts/
 AUGUSTUS_BIN=$AUGUSTUS_PATH/bin/augustus
-AUGUSTUS_EXTRINSIC=$AUGUSTUS_CONFIG_PATH/species/$ORG/${ORG}_extrinsic.M.RM.E.W.cfg
+#AUGUSTUS_EXTRINSIC=$AUGUSTUS_CONFIG_PATH/species/$ORG/${ORG}_extrinsic.M.RM.E.W.cfg
+#If the extrinsic file needs to be modified it can be copied to the species-specific 
+#directory from config/extrinsic directory (see below for path) as above
+AUGUSTUS_EXTRINSIC=$AUGUSTUS_CONFIG_PATH/extrinsic/extrinsic.M.RM.E.W.cfg
+
 EP_hints=$ASM.ep #AUGUSTUS hints file without ".gff" extension
 
 # --- File splitting for AUGUSTUS:
